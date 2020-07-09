@@ -2,25 +2,21 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class ProductResource extends JsonResource
+class ProductCollection extends ResourceCollection
 {
     /**
-     * Transform the resource into an array.
+     * Transform the resource collection into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function toArray($request)
     {
-        /*return [
-            'name' => $this->name,
-            'price' => $this->price,
-            'slug' => $this->slug,
-        ];*/
-
-        return $this->resource->toArray();
+        return [
+            'data' => $this->collection
+        ];
     }
 
     public function with($request)
