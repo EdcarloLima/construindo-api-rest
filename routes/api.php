@@ -27,12 +27,20 @@ Route::get('/test', function (Request $request){
    //return ['msg'=>'Minha primeira resposta da api']; já retorna como application/json
 });
 
-// Product Route
-Route::namespace('Api')->prefix('products')->group(function (){
-    Route::get('/','ProductController@index');
-    Route::get('/{id}','ProductController@show');
-    Route::post('/','ProductController@save');
-    Route::put('/','ProductController@update');
-    Route::patch('/','ProductController@update');
-    Route::delete('/{id}','ProductController@delete');
+
+Route::namespace('Api')->group(function (){
+
+
+    // Product Route
+    Route::prefix('products')->group(function (){
+        Route::get('/','ProductController@index');
+        Route::get('/{id}','ProductController@show');
+        Route::post('/','ProductController@save');
+        Route::put('/','ProductController@update');
+        Route::patch('/','ProductController@update');
+        Route::delete('/{id}','ProductController@delete');
+    });
+
+    // User Route
+    Route::resource('/users','UserController');
 });
