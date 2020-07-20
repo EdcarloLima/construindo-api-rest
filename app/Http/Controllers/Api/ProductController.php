@@ -23,14 +23,31 @@ class ProductController extends Controller
     /*
      * @return \Illuminate\Http\JsonResponse
      */
+
     /**
+     * @param Request $request
      * @return ProductCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = $this->product->paginate(10);
+        $products = $this->product;
+
+        if ($request->has('conditions')) {
+            $expressions = explode(';',$request->get('conditions'));
+            foreach ($expressions as $ex) {
+                $exp = explode('=',$ex);
+                $products = $products->where($exp[0],$exp[1]);
+            }
+        }
+
+        if ($request->has('fields')) {
+            $fields = $request->get('fields');
+            $products = $products->selectRaw($fields);
+            //return response()->json($fields);
+        }
+
         //return response()->json($products);
-        return new ProductCollection($products);
+        return new ProductCollection($products->paginate(10));
     }
 
     /*
